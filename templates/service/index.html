@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+
+{% block main %}
+<div class="d-flex justify-content-between mt-5">
+
+    <div class="col-2">
+
+        <form method="get" action="{% url 'test' %}" enctype="multipart/form-data">
+
+            <b>Categoriya</b>
+
+            <ul class="list-group list-group-light">
+                {% for category in categories %}
+                <li class="list-group-item">
+                    <input class="form-check-input me-1" type="checkbox" value="{{ category.name }}" aria-label="..."
+                           name="{{ category.slug }}"/>
+                    {{ category.name }}
+                </li>
+                {% endfor %}
+            </ul>
+
+            <br>
+            <b>Web Service</b>
+
+            <ul class="list-group list-group-light">
+                {% for web_service in web_services %}
+                <li class="list-group-item">
+                    <input class="form-check-input me-1" type="checkbox" value="{{ web_service.name }}" aria-label="..."
+                           name="{{ web_service.slug }}"/>
+                    {{ web_service.name }}
+                </li>
+                {% endfor %}
+            </ul>
+
+            <input type="submit" value="Izlash" class="btn btn-primary">
+
+        </form>
+
+    </div>
+
+    <div class="col-10">
+        {% for source in sources %}
+        <div class="card text-center">
+            <div class="card-header">
+                <form action="{% url 'test' %}" method="get" enctype="multipart/form-data">
+                    <div class="d-flex">
+                        <div>
+                            <button type="submit" class="btn btn-primary" value="{{ source.category.name }}" name="{{ source.category.slug }}">{{ source.category.name }}</button>
+                        </div>&nbsp;&nbsp;
+                        <div>
+                            <button type="submit" class="btn btn-success" value="{{ source.web_service.name }}" name="{{ source.web_service.slug }}">{{ source.web_service.name }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{ source.name }}</h5>
+                {% if source.description %}
+                <p class="card-text">{{ source.description }}</p>
+                {% endif %}
+                <a href="{{ source.url }}" class="btn btn-primary" target="_blank">Ko'rish</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock main %}
